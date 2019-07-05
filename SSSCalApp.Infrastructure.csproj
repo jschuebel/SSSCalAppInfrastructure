@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+<ItemGroup>
+      <ProjectReference Include="..\SSSCalApp.Core.Entity\SSSCalApp.Core.Entity.csproj" />
+      <ProjectReference Include="..\SSSCalApp.Core\SSSCalApp.Core.csproj" />
+  </ItemGroup>
+
+ <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="2.1.11" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.1.11" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer.Design" Version="1.1.6" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="2.1.11" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.1" />
+    <PackageReference Include="System.Linq.Dynamic.Core" Version="1.0.11" />
+  </ItemGroup>
+
+</Project>
