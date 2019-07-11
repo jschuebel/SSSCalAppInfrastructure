@@ -33,7 +33,7 @@ namespace SSSCalApp.Infrastructure.Repositories
         public coreevent.Event GetEventById(int id)
         {
             return _ctx.Events
-               .Include(c => c.topic)
+               .Include(c => c.topicf)
                 .FirstOrDefault(c => c.Id == id);
         }
 
@@ -48,7 +48,7 @@ namespace SSSCalApp.Infrastructure.Repositories
         {
             //Create a Filtered List
             var filteredList = _ctx.Events
-               .Include(c => c.topic);
+               .Include(c => c.topicf);
 
              /* If there is a Filter then filter the list and set Count
             if (filter != null && filter.ItemsPrPage > 0 && filter.CurrentPage > 0)
@@ -71,6 +71,7 @@ namespace SSSCalApp.Infrastructure.Repositories
         
         public coreevent.Event Update(coreevent.Event EventUpdate)
         {
+            if (EventUpdate.Createdate == null || (EventUpdate.Createdate != null && EventUpdate.Createdate.Year==1)) EventUpdate.Createdate = System.DateTime.Now;
             _ctx.Attach(EventUpdate).State = EntityState.Modified;
        /*     _ctx.Entry(EventUpdate).Collection(c => c.Orders).IsModified = true;
             _ctx.Entry(EventUpdate).Reference(c => c.Type).IsModified = true;

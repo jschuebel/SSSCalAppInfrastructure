@@ -30,7 +30,7 @@ namespace SSSCalApp.Infrastructure.Repositories
             return PersonSaved;
         }
 
-        public Person ReadyById(int id)
+        public Person GetById(int id)
         {
 
                 var evt = _ctx.Events.FirstOrDefault(x=>x.UserId==id);
@@ -38,7 +38,8 @@ namespace SSSCalApp.Infrastructure.Repositories
                 .Include(c => c.Address)
 //                .Include(c => c.Events)
                 .FirstOrDefault(c => c.Id == id);
-                p.Events.Add(evt);
+                if (evt!=null)
+                    p.Events.Add(evt);
             return p;
         }
 
@@ -95,7 +96,9 @@ namespace SSSCalApp.Infrastructure.Repositories
         {
             /*var ordersToRemove = _ctx.Orders.Where(o => o.Person.Id == id);
             _ctx.RemoveRange(ordersToRemove);*/
-            var custRemoved = _ctx.Remove(new Person {Id = id}).Entity;
+            var per = _ctx.People.FirstOrDefault(x=>x.Id==id);
+            //var custRemoved = _ctx.Remove(new Person {Id = id}).Entity;
+            var custRemoved = _ctx.Remove(per).Entity;
             _ctx.SaveChanges();
             return true; //custRemoved;
         }
