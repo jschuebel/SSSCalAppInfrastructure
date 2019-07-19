@@ -32,7 +32,13 @@ namespace SSSCalApp.Infrastructure.Repositories
 
         public Person GetById(int id)
         {
+            var item = (from p in _ctx.People
+                .Include(c => c.Address)
+                join evt in _ctx.Events.Where(x=>x.TopicId==1) on p.Id equals evt.UserId
+                where p.Id == evt.UserId
+                select p.Copy(evt)).FirstOrDefault();
 
+/*
                 var evt = _ctx.Events.FirstOrDefault(x=>x.UserId==id);
                 var p = _ctx.People
                 .Include(c => c.Address)
@@ -40,7 +46,8 @@ namespace SSSCalApp.Infrastructure.Repositories
                 .FirstOrDefault(c => c.Id == id);
                 if (evt!=null)
                     p.Events.Add(evt);
-            return p;
+*/                    
+            return item;
         }
 
         public Person ReadyByIdIncludeOrders(int id)
@@ -54,7 +61,10 @@ namespace SSSCalApp.Infrastructure.Repositories
         public IEnumerable<Person> ReadAll()
         {
             //Create a Filtered List
-            var filteredList = _ctx.People;
+            var filteredList = from p in _ctx.People
+                    join evt in _ctx.Events.Where(x=>x.TopicId==1) on p.Id equals evt.UserId
+                    select p.Copy(evt);
+
             /* If there is a Filter then filter the list and set Count
             if (filter != null && filter.ItemsPrPage > 0 && filter.CurrentPage > 0)
             {

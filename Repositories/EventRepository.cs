@@ -32,9 +32,17 @@ namespace SSSCalApp.Infrastructure.Repositories
 
         public coreevent.Event GetEventById(int id)
         {
-            return _ctx.Events
-               .Include(c => c.topicf)
-                .FirstOrDefault(c => c.Id == id);
+            var item = (from evt in _ctx.Events
+            .Include(c => c.topicf)
+            join p in _ctx.People on evt.UserId equals p.Id
+            where evt.Id==id
+            select evt.Copy(p)).FirstOrDefault();
+
+            return item;
+
+//            return _ctx.Events
+//               .Include(c => c.topicf)
+//                .FirstOrDefault(c => c.Id == id);
         }
 
         public List<coreevent.Person> GetEventByIdWithPeople(int id)
@@ -47,8 +55,10 @@ namespace SSSCalApp.Infrastructure.Repositories
         public IEnumerable<coreevent.Event> ReadAll()
         {
             //Create a Filtered List
-            var filteredList = _ctx.Events
-               .Include(c => c.topicf);
+            var filteredList = from evt in _ctx.Events
+                   .Include(c => c.topicf)
+                    join p in _ctx.People on evt.UserId equals p.Id
+                    select evt.Copy(p);
 
              /* If there is a Filter then filter the list and set Count
             if (filter != null && filter.ItemsPrPage > 0 && filter.CurrentPage > 0)

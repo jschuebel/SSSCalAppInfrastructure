@@ -78,6 +78,8 @@ namespace SSSCalApp.Infrastructure.DataContext
 
            modelBuilder.Entity<Event>(entity =>
             {
+                entity.Ignore(t => t.UserName);
+
                 entity.HasIndex(e => new { e.TopicId, e.Date })
                     .HasName("IX_date");
 
@@ -112,16 +114,18 @@ namespace SSSCalApp.Infrastructure.DataContext
                     .OnDelete(DeleteBehavior.ClientSetNull);
 */
                 entity.Property(e => e.UserId).HasColumnName("UserID");
-                
                 entity.HasOne(d => d.CreateUser)
                     .WithMany(p => p.Events)
                     .HasForeignKey(d => d.UserId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Events_General");
+
             });
 
             modelBuilder.Entity<Person>(entity =>
             {
+                entity.Ignore(t => t.DateOfBirth);
+   
                 entity.ToTable("General");
                 entity.HasKey(e => e.Id)
                     .ForSqlServerIsClustered(false);
