@@ -107,7 +107,7 @@ namespace SSSCalApp.Infrastructure.Repositories
             /*var ordersToRemove = _ctx.Orders.Where(o => o.Person.Id == id);
             _ctx.RemoveRange(ordersToRemove);*/
             var per = _ctx.People.FirstOrDefault(x=>x.Id==id);
-            //var custRemoved = _ctx.Remove(new Person {Id = id}).Entity;
+            if (per==null) return false;
             var custRemoved = _ctx.Remove(per).Entity;
             _ctx.SaveChanges();
             return true; //custRemoved;

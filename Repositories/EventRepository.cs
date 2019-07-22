@@ -102,7 +102,11 @@ namespace SSSCalApp.Infrastructure.Repositories
         {
             /*var ordersToRemove = _ctx.Orders.Where(o => o.Event.Id == id);
             _ctx.RemoveRange(ordersToRemove);*/
-            var custRemoved = _ctx.Remove(new coreevent.Event {Id = id}).Entity;
+            var evt = _ctx.Events.FirstOrDefault(x=>x.Id==id);
+            if (evt==null) return false;
+
+            //var custRemoved = _ctx.Remove(new coreevent.Event {Id = id}).Entity;
+            var custRemoved = _ctx.Remove(evt).Entity;
             _ctx.SaveChanges();
             return true; //custRemoved;
         }
