@@ -35,7 +35,7 @@ namespace SSSCalApp.Infrastructure.Repositories
             var item = (from p in _ctx.People
                 .Include(c => c.Address)
                 join evt in _ctx.Events.Where(x=>x.TopicId==1) on p.Id equals evt.UserId
-                where p.Id == evt.UserId
+                where p.Id == id
                 select p.Copy(evt)).FirstOrDefault();
 
 /*

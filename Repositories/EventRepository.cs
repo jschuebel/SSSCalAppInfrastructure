@@ -56,6 +56,7 @@ namespace SSSCalApp.Infrastructure.Repositories
         {
             //Create a Filtered List
             var filteredList = from evt in _ctx.Events
+                   .AsNoTracking()
                    .Include(c => c.topicf)
                     join p in _ctx.People on evt.UserId equals p.Id
                     select evt.Copy(p);
