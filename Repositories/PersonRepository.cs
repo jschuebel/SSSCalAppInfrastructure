@@ -83,6 +83,12 @@ namespace SSSCalApp.Infrastructure.Repositories
             */
             return filteredList;
         }
+
+        public IEnumerable<PersonHistory> ReadHistory()
+        {
+            //Create a Filtered List
+            return _ctx.PersonHistorys.OrderBy(x=>x.PersonID).ThenByDescending(x=>x.UpdatedOn).ToList();
+        }
         
         public Person Update(Person PersonUpdate)
         {

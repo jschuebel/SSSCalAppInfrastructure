@@ -19,6 +19,7 @@ namespace SSSCalApp.Infrastructure.DataContext
         public virtual DbSet<Topic> Topics { get; set; }
      
         public virtual DbSet<Group> Groups { get; set; }
+        public virtual DbSet<PersonHistory> PersonHistorys { get; set; }
 
 
        protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -46,6 +47,15 @@ namespace SSSCalApp.Infrastructure.DataContext
                 entity.Property(e => e.State).HasMaxLength(5);
 
                 entity.Property(e => e.Zip).HasMaxLength(15);
+            });
+
+
+          modelBuilder.Entity<PersonHistory>(entity =>
+            {
+                entity.ToTable("viewGeneralHistory");
+                entity.Property(e => e.Id)
+                    .HasColumnName("ID")
+                    .ValueGeneratedNever();
             });
 
           modelBuilder.Entity<Topic>(entity =>
